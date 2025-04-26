@@ -5,7 +5,12 @@ model = GPT2LMHeadModel.from_pretrained("gpt2")
 tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
 
 model.eval()
+if torch.cuda.is_available():
+    model.to("cuda")
+else:
+    model.to("cpu")
 
+# Set the pad token to the end of sentence token
 model.config.pad_token_id = model.config.eos_token_id
 
 def generate_text(prompt, max_length=50):
